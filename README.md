@@ -19,20 +19,20 @@ Bu proje, bir teknik servisin günlük işleyişini dijitalleştirmek amacıyla 
 * **Mimari:** MVC (Model-View-Controller) standartlarına uygun klasör yapısı.
 
 ## ⚙️ Kurulum ve Çalıştırma
-Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
 
-1. Projeyi bilgisayarınıza klonlayın:
-   ```bash
-   git clone https://github.com/mehmetaliavan/teknik-servis-otomasyonu.git
+Projeyi bilgisayarınızda çalıştırmak için terminal (veya CMD) ekranında sırasıyla aşağıdaki komutları çalıştırın:
 
-2. Proje dizinine girin:**
-`cd teknik-servis-otomasyonu`
+```bash
+# 1. Projeyi bilgisayarınıza klonlayın
+git clone [https://github.com/mehmetaliavan/teknik-servis-otomasyonu.git](https://github.com/mehmetaliavan/teknik-servis-otomasyonu.git)
 
-**3. Gerekli paketleri yükleyin:**
-`npm install`
+# 2. Proje dizinine girin
+cd teknik-servis-otomasyonu
 
-**4. Sunucuyu başlatın:**
-`node server.js`
+# 3. Gerekli kütüphaneleri yükleyin
+npm install
 
+# 4. Sunucuyu başlatın
+node server.js
 **5. Tarayıcıda açın:**
 `http://localhost:3000`
