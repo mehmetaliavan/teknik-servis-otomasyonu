@@ -25,7 +25,7 @@ Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları i
    ```bash
    git clone https://github.com/mehmetaliavan/teknik-servis-otomasyonu.git
 
-**2. Proje dizinine girin:**
+2. Proje dizinine girin:**
 `cd teknik-servis-otomasyonu`
 
 **3. Gerekli paketleri yükleyin:**
