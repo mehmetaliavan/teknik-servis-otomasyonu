@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kırık Ekran Değişimi - Detaylar</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark mb-0">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+            <i class="bi bi-lightning-charge-fill text-warning"></i>
+            <span>Teknik Servis</span>
+        </a>
+        <a href="/" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-arrow-left"></i> Geri Dön
+        </a>
+    </div>
+</nav>
+
+<div style="background: url('/img/ekran.jpg') no-repeat center center; background-size: cover; height: 400px; position: relative;">
+    <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.8));"></div>
+    <div class="container h-100 d-flex align-items-end pb-5 justify-content-center position-relative">
+        <h1 class="text-white display-4 fw-bold text-center text-shadow">Kırık Ekran Değişimi ve Onarımı</h1>
+    </div>
+</div>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+                <div class="card-body p-5">
+                    
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="display-5 text-primary me-3"><i class="bi bi-phone"></i></div>
+                        <h3 class="text-dark fw-bold m-0">Sorun ve Çözüm Süreci</h3>
+                    </div>
+
+                    <p class="lead mb-4 text-muted">
+                        Düşme, çarpma veya sıkışma sonucu telefonunuzun ekranında oluşan kırıklar, çatlaklar veya görüntü kayıpları (mürekkep dağılması) profesyonel ekipmanlarımızla onarılmaktadır. Cihazınızın dokunmatik hassasiyeti ve görüntü kalitesi ilk günkü haline döndürülür.
+                    </p>
+                    
+                    <hr class="my-5 opacity-25">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="fw-bold mb-3 text-secondary"><i class="bi bi-gear-fill me-2"></i>Teknik Detaylar ve İşlem Adımları:</h5>
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item bg-transparent border-0 ps-0">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <strong>Arıza Tespiti:</strong> Cihazın sadece ön camının mı yoksa iç panelinin mi hasar gördüğü tespit edilir.
+                                </li>
+                                <li class="list-group-item bg-transparent border-0 ps-0">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <strong>Söküm İşlemi:</strong> Cihaz özel ısıtıcılar yardımıyla açılarak hasarlı ekran kasadan ayrılır.
+                                </li>
+                                <li class="list-group-item bg-transparent border-0 ps-0">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <strong>Temizlik:</strong> Kasa kenarlarındaki cam tozları ve eski yapışkan kalıntıları mikro seviyede temizlenir.
+                                </li>
+                                <li class="list-group-item bg-transparent border-0 ps-0">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <strong>Montaj ve Presleme:</strong> Yeni ve orijinal kalitedeki ekran, fabrikasyon standartlarında vakum ve pres makineleriyle montajlanır.
+                                </li>
+                                <li class="list-group-item bg-transparent border-0 ps-0">
+                                    <i class="bi bi-check-circle-fill text-success me-2"></i>
+                                    <strong>Son Testler:</strong> Dokunmatik hassasiyeti, True Tone (varsa), renk canlılığı ve yakınlık sensörü testleri yapılır.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-5 p-5 bg-light rounded-4 text-center border border-primary border-opacity-10">
+                        <h4 class="fw-bold mb-3">Sizin de ekranınız mı kırıldı?</h4>
+                        <p class="text-muted mb-4">Cihazınızı güvenilir ellere teslim edin, en kısa sürede ilk günkü gibi teslim alın.</p>
+                        
+                        <% if (user) { %>
+                            <a href="/ariza-birak" class="btn btn-primary btn-lg px-5 shadow-sm">
+                                <i class="bi bi-tools me-2"></i>Hemen Arıza Kaydı Oluştur
+                            </a>
+                        <% } else { %>
+                            <a href="/kayit" class="btn btn-success btn-lg px-5 shadow-sm">
+                                <i class="bi bi-person-plus-fill me-2"></i>Kayıt Ol ve Tamir Ettir
+                            </a>
+                        <% } %>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="bg-dark text-white py-4 mt-5">
+    <div class="container text-center">
+        <p class="mb-0">&copy; 2025 Teknik Servis Projesi. Tüm Hakları Saklıdır.</p>
+        <small class="opacity-50">Node.js & Express & SQLite ile geliştirildi.</small>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Yarrak Ali Yönetim Paneli</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+<style>
+        /* GENEL BUTON STİLİ */
+        .nav-pills .nav-link {
+            border-radius: 8px;
+            padding: 20px 25px;
+            font-weight: 600;
+            
+            /* DÜZELTİLEN KISIM: Normal (Pasif) Durum Renkleri */
+            background-color: #414243; /* Hafif Gri Arka Plan */
+            color: #dc0505;               /* Koyu Gri Yazı (Okunabilir) */
+            border: 1px solid #414243; /* İnce Çerçeve */
+            
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        /* ÜZERİNE GELİNCE (HOVER) */
+        .nav-pills .nav-link:hover {
+            background-color: #e9ecef; /* Biraz daha koyu gri */
+            color: #000;               /* Simsiyah yazı */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* SEÇİLİ OLUNCA (ACTIVE) - MAVİ */
+        .nav-pills .nav-link.active {
+            background-color: var(--bs-primary) !important;
+            color: white !important;
+            box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+            border-color: var(--bs-primary);
+        }
+
+        /* İKON BOYUTU */
+        .nav-link i { font-size: 1.5rem; }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container-fluid px-5 py-5">
+    
+    <div class="d-flex justify-content-between align-items-center mb-5 border-bottom pb-3">
+        <div>
+            <h1 class="fw-bold text-dark m-0"><i class="bi bi-speedometer2 text-primary me-2"></i>Admin Paneli</h1>
+            <p class="text-muted m-0">Sistem Yönetim Merkezi</p>
+        </div>
+        <div>
+            <a href="/" class="btn btn-outline-secondary me-2"><i class="bi bi-house"></i> Siteye Dön</a>
+            <a href="/cikis" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Çıkış</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3 col-lg-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <button class="nav-link active" id="tab-ariza" data-bs-toggle="pill" data-bs-target="#content-ariza" type="button" role="tab">
+                    <span class="d-flex align-items-center"><i class="bi bi-tools me-3"></i> Arıza Talepleri</span>
+                    <% if(kayitlar.filter(k => k.durum != 'tamamlandi').length > 0) { %>
+                        <span class="badge bg-danger rounded-pill"><%= kayitlar.filter(k => k.durum != 'tamamlandi').length %></span>
+                    <% } %>
+                </button>
+                <button class="nav-link" id="tab-users" data-bs-toggle="pill" data-bs-target="#content-users" type="button" role="tab">
+                    <span class="d-flex align-items-center"><i class="bi bi-people me-3"></i> Kullanıcılar</span>
+                </button>
+                <button class="nav-link" id="tab-forum" data-bs-toggle="pill" data-bs-target="#content-forum" type="button" role="tab">
+                    <span class="d-flex align-items-center"><i class="bi bi-chat-quote me-3"></i> Forum</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="col-md-9 col-lg-10">
+            <div class="tab-content" id="v-pills-tabContent">
+                
+                <div class="tab-pane fade show active" id="content-ariza" role="tabpanel">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h5 class="mb-0 fw-bold text-secondary">Gelen Arıza Talepleri</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="ps-4">ID</th>
+                                            <th>Müşteri / Cihaz</th>
+                                            <th>Durum</th>
+                                            <th style="min-width: 220px;" class="pe-4">İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% kayitlar.forEach(function(kayit) { %>
+                                            <tr>
+                                                <td class="ps-4 fw-bold text-muted">#<%= kayit.id %></td>
+                                                <td>
+                                                    <div class="fw-bold text-dark"><%= kayit.ad_soyad %></div>
+                                                    <div class="small text-muted"><%= kayit.cihaz_tipi %></div>
+                                                    <div class="small text-danger text-truncate" style="max-width: 250px;"><%= kayit.ariza_aciklamasi %></div>
+                                                </td>
+                                                <td>
+                                                    <% if(kayit.durum == 'beklemede') { %> <span class="badge bg-warning text-dark px-3 py-2">Bekliyor</span>
+                                                    <% } else if(kayit.durum == 'teklif_yapildi') { %> <span class="badge bg-info text-dark px-3 py-2">Teklif: <%= kayit.fiyat_teklifi %>₺</span>
+                                                    <% } else if(kayit.durum == 'onaylandi') { %> <span class="badge bg-primary px-3 py-2">Onaylandı</span>
+                                                    <% } else if(kayit.durum == 'iptal') { %> <span class="badge bg-danger px-3 py-2">İptal</span>
+                                                    <% } else { %> <span class="badge bg-success px-3 py-2">Bitti</span> <% } %>
+                                                </td>
+                                                <td class="pe-4">
+                                                    <% if(kayit.durum == 'beklemede') { %>
+                                                        <form action="/admin/teklif" method="POST" class="d-flex gap-2">
+                                                            <input type="hidden" name="kayit_id" value="<%= kayit.id %>">
+                                                            <div class="input-group input-group-sm">
+                                                                <span class="input-group-text bg-light border-end-0">₺</span>
+                                                                <input type="number" name="fiyat" class="form-control border-start-0" placeholder="Tutar" required>
+                                                                <button name="islem" value="fiyat_ver" class="btn btn-success">Ver</button>
+                                                            </div>
+                                                            <button name="islem" value="iptal_et" class="btn btn-sm btn-outline-danger" title="Reddet"><i class="bi bi-x-lg"></i></button>
+                                                        </form>
+                                                    <% } else if (kayit.durum == 'onaylandi') { %>
+                                                        <form action="/admin/teklif" method="POST">
+                                                            <input type="hidden" name="kayit_id" value="<%= kayit.id %>">
+                                                            <button name="islem" value="tamamla" class="btn btn-sm btn-primary w-100 shadow-sm"><i class="bi bi-check2-circle me-1"></i> Tamamla</button>
+                                                        </form>
+                                                    <% } else { %>
+                                                        <span class="text-muted small fst-italic">İşlem Kapalı</span>
+                                                    <% } %>
+                                                </td>
+                                            </tr>
+                                        <% }); %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="content-users" role="tabpanel">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center border-bottom">
+                            <h5 class="mb-0 fw-bold text-secondary">Kullanıcı Listesi</h5>
+                            <button class="btn btn-sm btn-success shadow-sm px-3" onclick="temizleModal()" data-bs-toggle="modal" data-bs-target="#userModal">
+                                <i class="bi bi-person-plus me-1"></i> Yeni Ekle
+                            </button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="ps-4">Ad Soyad</th>
+                                            <th>İletişim</th>
+                                            <th>Rol</th>
+                                            <th class="pe-4">İşlem</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% kullanicilar.forEach(user => { %>
+                                            <tr>
+                                                <td class="ps-4">
+                                                    <div class="fw-bold text-dark"><%= user.ad_soyad %></div>
+                                                    <small class="text-muted">ID: <%= user.id %></small>
+                                                </td>
+                                                <td>
+                                                    <div class="text-dark"><%= user.email %></div>
+                                                    <small class="text-muted"><i class="bi bi-telephone me-1"></i><%= user.telefon || '-' %></small>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-<%= user.rol=='admin'?'dark':'light text-dark border' %>"><%= user.rol %></span>
+                                                </td>
+                                                <td class="pe-4">
+                                                    <a href="/admin/user-delete/<%= user.id %>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bu kullanıcı silinsin mi?')">
+                                                        <i class="bi bi-trash"></i> Sil
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="content-forum" role="tabpanel">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-header bg-white py-3 border-bottom">
+                            <h5 class="mb-0 fw-bold text-secondary">Forum Konuları</h5>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="ps-4">Başlık</th>
+                                            <th>Yazar</th>
+                                            <th>Tarih</th>
+                                            <th class="pe-4">Sil</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% forum.forEach(f => { %>
+                                            <tr>
+                                                <td class="ps-4">
+                                                    <a href="/forum/konu/<%= f.id %>" target="_blank" class="text-decoration-none fw-bold text-primary">
+                                                        <%= f.baslik %> <i class="bi bi-box-arrow-up-right small ms-1"></i>
+                                                    </a>
+                                                </td>
+                                                <td>User #<%= f.user_id %></td>
+                                                <td><%= new Date(f.tarih).toLocaleDateString() %></td>
+                                                <td class="pe-4">
+                                                    <a href="/admin/forum-sil/<%= f.id %>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bu konu ve tüm yorumları silinecek?')">
+                                                        <i class="bi bi-trash"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        <% }) %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="userModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="/admin/user-save" method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title">Yeni Kullanıcı Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="userId">
+                    <div class="mb-3">
+                        <label class="form-label">Ad Soyad</label>
+                        <input type="text" name="ad_soyad" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">E-posta</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Şifre</label>
+                        <input type="password" name="sifre" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Rol</label>
+                        <select name="rol" class="form-select">
+                            <option value="user">Müşteri (User)</option>
+                            <option value="admin">Yönetici (Admin)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function temizleModal() {
+        document.querySelector('form').reset();
+    }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Forum - Teknik Servis Topluluğu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/">Teknik Servis Forumu</a>
+        <div class="ms-auto text-white">
+            <a href="/" class="btn btn-outline-light btn-sm me-2">Ana Sayfa</a>
+            <% if(user) { %>
+                <a href="/forum/yeni" class="btn btn-success btn-sm fw-bold"><i class="bi bi-plus-lg"></i> Konu Aç</a>
+            <% } else { %>
+                <a href="/giris" class="btn btn-warning btn-sm">Giriş Yap</a>
+            <% } %>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h3 class="fw-bold mb-4 text-secondary">Son Konuşmalar</h3>
+            
+            <% if (konular.length > 0) { %>
+                <div class="list-group shadow-sm">
+                    <% konular.forEach(function(konu) { %>
+                        <a href="/forum/konu/<%= konu.id %>" class="list-group-item list-group-item-action p-4 border-0 border-bottom">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1 fw-bold text-primary"><%= konu.baslik %></h5>
+                                <small class="text-muted"><%= new Date(konu.tarih).toLocaleDateString('tr-TR') %></small>
+                            </div>
+                            <p class="mb-2 text-dark opacity-75 text-truncate" style="max-width: 80%;"><%= konu.icerik %></p>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <small class="text-secondary"><i class="bi bi-person-circle"></i> <%= konu.ad_soyad %></small>
+                                <span class="badge bg-secondary rounded-pill"><i class="bi bi-chat-dots"></i> <%= konu.yorum_sayisi %> Cevap</span>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+            <% } else { %>
+                <div class="alert alert-info text-center p-5">
+                    <h4>Henüz hiç konu açılmamış.</h4>
+                    <p>İlk soruyu soran sen ol!</p>
+                    <a href="/forum/yeni" class="btn btn-primary mt-2">Hemen Konu Başlat</a>
+                </div>
+            <% } %>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

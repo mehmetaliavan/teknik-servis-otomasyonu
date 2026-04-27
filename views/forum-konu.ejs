@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title><%= konu.baslik %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .reply-card { background-color: #f8f9fa; border-left: 4px solid var(--bs-primary); }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/forum">Forum</a>
+        <a href="/" class="btn btn-outline-light btn-sm">Siteye Dön</a>
+    </div>
+</nav>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-9">
+            
+            <div class="card shadow-sm mb-4 border-0">
+                <div class="card-body p-4">
+                    <h2 class="fw-bold mb-3 text-primary"><%= konu.baslik %></h2>
+                    <div class="d-flex align-items-center mb-3 text-muted border-bottom pb-3">
+                        <i class="bi bi-person-circle fs-4 me-2"></i>
+                        <span class="fw-bold me-3"><%= konu.ad_soyad %></span>
+                        <small><i class="bi bi-clock"></i> <%= new Date(konu.tarih).toLocaleString('tr-TR') %></small>
+                    </div>
+                    <p class="lead" style="white-space: pre-wrap;"><%= konu.icerik %></p>
+                </div>
+            </div>
+
+            <h5 class="mb-3 text-secondary">Cevaplar (<%= yorumlar.length %>)</h5>
+
+            <% if (yorumlar.length > 0) { %>
+                <% yorumlar.forEach(function(yorum) { %>
+                    <div class="card mb-3 border-0 shadow-sm reply-card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <strong class="text-dark"><%= yorum.ad_soyad %></strong>
+                                <small class="text-muted"><%= new Date(yorum.tarih).toLocaleString('tr-TR') %></small>
+                            </div>
+                            <p class="mb-0"><%= yorum.yorum %></p>
+                        </div>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <div class="alert alert-light text-center border">Henüz cevap yazılmamış. İlk cevabı sen yaz!</div>
+            <% } %>
+
+            <% if(user) { %>
+                <div class="card mt-4 border-0 shadow">
+                    <div class="card-body bg-light">
+                        <h6 class="fw-bold">Bir Cevap Yaz</h6>
+                        <form action="/forum/yorum" method="POST">
+                            <input type="hidden" name="konu_id" value="<%= konu.id %>">
+                            <textarea name="yorum" class="form-control mb-2" rows="3" placeholder="Yanıtınız..." required></textarea>
+                            <button type="submit" class="btn btn-primary btn-sm px-4">Gönder</button>
+                        </form>
+                    </div>
+                </div>
+            <% } else { %>
+                <div class="alert alert-warning mt-4 text-center">
+                    Cevap yazmak için <a href="/giris" class="fw-bold">Giriş Yap</a>malısın.
+                </div>
+            <% } %>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

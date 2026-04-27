@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Arıza Kaydı Oluştur</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark mb-5">
+    <div class="container">
+        <a class="navbar-brand" href="/">Teknik Servis</a>
+        <div class="ms-auto text-white">
+            <a href="/takip" class="btn btn-outline-info btn-sm me-3 shadow-sm">
+                <i class="bi bi-box-seam"></i> Cihaz Takip
+            </a>
+            <span class="opacity-75 me-2">Hoşgeldin,</span>
+            <span class="fw-bold text-warning"><%= user.ad_soyad %></span>
+        </div>
+    </div>
+</nav>
+
+<div class="container mb-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="card border-0 shadow-lg overflow-hidden">
+                <div class="card-header text-center p-4" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+                    <h3 class="mb-0 fw-bold">🛠️ Arıza Kaydı Oluştur</h3>
+                    <p class="mb-0 opacity-75 small">Telefonunuzdaki sorunu seçin ve bize bildirin.</p>
+                </div>
+
+                <div class="card-body p-4 p-md-5">
+                    
+                    <% if (mesaj) { %>
+                        <div class="alert alert-success d-flex align-items-center shadow-sm border-0" role="alert">
+                            <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+                            <div><%= mesaj %></div>
+                        </div>
+                    <% } %>
+
+                    <form action="/ariza-birak" method="POST">
+                        
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">
+                                <i class="bi bi-phone me-1"></i> Cihaz Modeli
+                            </label>
+                            <select name="cihaz_secim" id="cihazSelect" class="form-select form-select-lg shadow-sm" required onchange="toggleManualInput()">
+                                <option value="" disabled selected>Listeden Telefonunuzu Seçiniz...</option>
+                                <% cihazlar.forEach(function(cihaz) { %>
+                                    <option value="<%= cihaz.cihaz_adi %>"><%= cihaz.cihaz_adi %></option>
+                                <% }); %>
+                                <option value="Diger" class="fw-bold text-danger">-- Listede Yok (Diğer) --</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4" id="manualInputDiv" style="display: none;">
+                            <label class="form-label fw-bold text-danger">
+                                <i class="bi bi-keyboard me-1"></i> Cihaz Modelini Yazınız
+                            </label>
+                            <input type="text" name="cihaz_manuel" class="form-control form-control-lg border-danger shadow-sm" placeholder="Örn: Xiaomi Mi 11 Ultra">
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary d-block">
+                                <i class="bi bi-shield-check me-1"></i> Garanti Durumu
+                            </label>
+                            <div class="btn-group w-100 shadow-sm" role="group">
+                                <input type="radio" class="btn-check" name="garanti" id="garantiVar" value="Var" required>
+                                <label class="btn btn-outline-success py-3" for="garantiVar">
+                                    <i class="bi bi-check-lg"></i> Garantisi Var
+                                </label>
+
+                                <input type="radio" class="btn-check" name="garanti" id="garantiYok" value="Yok">
+                                <label class="btn btn-outline-danger py-3" for="garantiYok">
+                                    <i class="bi bi-x-lg"></i> Garantisi Yok
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-secondary">
+                                <i class="bi bi-pencil-square me-1"></i> Arıza Açıklaması
+                            </label>
+                            <textarea name="aciklama" class="form-control shadow-sm" rows="5" placeholder="Örn: Ekran kırıldı, şarj soketi temassızlık yapıyor..." required></textarea>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-primary btn-lg shadow hover-scale">
+                                <i class="bi bi-send-fill me-2"></i> Kaydı Oluştur
+                            </button>
+                            <a href="/" class="btn btn-outline-secondary border-0">İptal Et ve Geri Dön</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4 text-muted small">
+                <p>Kaydınızı oluşturduktan sonra <a href="/takip" class="fw-bold text-decoration-none">Cihaz Takip</a> ekranından<br>onay durumunu ve kargo kodunuzu görebilirsiniz.</p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleManualInput() {
+        var select = document.getElementById("cihazSelect");
+        var manualDiv = document.getElementById("manualInputDiv");
+        var manualInput = document.querySelector("input[name='cihaz_manuel']");
+
+        if (select.value === "Diger") {
+            manualDiv.style.display = "block";
+            manualInput.required = true; // Kutucuk açılınca zorunlu yap
+            manualInput.focus();
+        } else {
+            manualDiv.style.display = "none";
+            manualInput.required = false; // Kapanınca zorunluluğu kaldır
+            manualInput.value = ""; // İçini temizle
+        }
+    }
+</script>
+
+</body>
+</html>
