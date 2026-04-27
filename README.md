@@ -24,3 +24,15 @@ Projeyi kendi bilgisayarınızda çalıştırmak için aşağıdaki adımları i
 1. Projeyi bilgisayarınıza klonlayın:
    ```bash
    git clone https://github.com/mehmetaliavan/teknik-servis-otomasyonu.git
+
+**2. Proje dizinine girin:**
+`cd teknik-servis-otomasyonu`
+
+**3. Gerekli paketleri yükleyin:**
+`npm install`
+
+**4. Sunucuyu başlatın:**
+`node server.js`
+
+**5. Tarayıcıda açın:**
+`http://localhost:3000`
